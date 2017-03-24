@@ -20,6 +20,9 @@ FILE * in_fp;
 /* Function Declarations */
 
 /* Character Classes */
+#define LETTER 0
+#define DIGIT 1
+#define UNKNOWN 99
 
 /* Token Codes */
 
