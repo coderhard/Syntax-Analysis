@@ -36,6 +36,15 @@ FILE * in_fp;
 #define RIGHT_PAREN 26
 
 /* Function Definitions */
+void addChar() {
+    if (lexLen <= 98)
+    {
+        lexeme[lexLen++] = nextChar;
+        lexeme[lexLen] = 0;
+    }
+    else
+        printf("Error");
+}
 
 /* Main Driver */
 main () {
