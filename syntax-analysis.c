@@ -26,8 +26,6 @@ void getChar();
 void getNonBlank();
 int lex();
 
-void factor();
-void z();
 void x();
 
 /* Character Classes */
@@ -129,6 +127,49 @@ int lex()
     } /* End of Switch */
     
     printf("Next token is: %d, Next lexeme is %s\n", nextToken, lexeme);
+    return nextToken;
+}
+
+int lookup(char ch)
+{
+    switch (ch)
+    {
+        case '(':
+            addChar();
+            nextToken = LEFT_PAREN;
+            break;
+            
+        case ')':
+            addChar();
+            nextToken = RIGHT_PAREN;
+            break;
+        
+        case '+':
+            addChar();
+            nextToken = ADD_OP;
+            break;
+            
+        case '-':
+            addChar();
+            nextToken = SUB_OP;
+            break;
+            
+        case '*':
+            addChar();
+            nextToken = MULT_OP;
+            break;
+            
+        case '/':
+            addChar();
+            nextToken = DIV_OP;
+            break;
+            
+        default:
+            addChar();
+            nextToken = EOF;
+            break;
+    }
+    
     return nextToken;
 }
 
