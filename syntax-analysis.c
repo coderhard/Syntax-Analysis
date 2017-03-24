@@ -20,6 +20,14 @@ int line_input_pos;
 FILE * in_fp;
 
 /* Function Declarations */
+void addChar();
+void getChar();
+void getNonBlank();
+int lex();
+
+void factor();
+void z();
+void x();
 
 /* Character Classes */
 #define LETTER 0
@@ -121,6 +129,37 @@ int lex()
     
     printf("Next token is: %d, Next lexeme is %s\n", nextToken, lexeme);
     return nextToken;
+}
+
+void factor()
+{
+    if (nextToken == IDENT || nextToken == INT_LIT)
+        /* Return nextToken */
+        lex();
+    else
+    {
+        if (nextToken == LEFT_PAREN)
+        {
+            lex();
+            x();
+            if (nextToken == RIGHT_PAREN)
+                lex();
+            else
+                error("Expected )");
+        }
+        else
+            error("Expected id, integer literal, or (");
+    }
+}
+
+void z()
+{
+    
+}
+
+void x()
+{
+    
 }
 
 /* Main Driver */
