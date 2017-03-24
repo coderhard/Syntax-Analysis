@@ -16,6 +16,7 @@ int token;
 int nextToken;
 char line_input[100];
 int line_input_pos;
+int line_input_count;
 
 FILE * in_fp;
 
@@ -131,6 +132,11 @@ int lex()
     return nextToken;
 }
 
+void error()
+{
+    printf("Error: '%s' line %d, column %d: \n%s\n", error, line_input_count, line_input_pos, line_input);
+}
+
 /* Parse: factor */
 void factor()
 {
@@ -171,7 +177,14 @@ void z()
 
 void x()
 {
-    
+    z();
+    while (nextToken == ADD_OP || nextToken == SUB_OP)
+    {
+        /* Return nextToken */
+        lex();
+        /* Parse nextToken */
+        z();
+    }
 }
 
 /* Main Driver */
