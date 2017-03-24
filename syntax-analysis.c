@@ -232,13 +232,13 @@ void x()
 }
 
 /* Main Driver */
-int main () {
+int main (int argc, char** argv) {
     if (argc < 2)
     {
         return 1;
     }
     
-    in_fp = open(argv[1], "r");
+    in_fp = fopen(argv[1], "r");
     
     /* File is NULL */
     if (in_fp == NULL)
