@@ -79,6 +79,49 @@ void getNonBlank()
         getChar();
 }
 
+int lookup(char ch)
+{
+    switch (ch)
+    {
+        case '(':
+            addChar();
+            nextToken = LEFT_PAREN;
+            break;
+            
+        case ')':
+            addChar();
+            nextToken = RIGHT_PAREN;
+            break;
+            
+        case '+':
+            addChar();
+            nextToken = ADD_OP;
+            break;
+            
+        case '-':
+            addChar();
+            nextToken = SUB_OP;
+            break;
+            
+        case '*':
+            addChar();
+            nextToken = MULT_OP;
+            break;
+            
+        case '/':
+            addChar();
+            nextToken = DIV_OP;
+            break;
+            
+        default:
+            addChar();
+            nextToken = EOF;
+            break;
+    }
+    
+    return nextToken;
+}
+
 int lex()
 {
     lexLen = 0;
@@ -130,52 +173,10 @@ int lex()
     return nextToken;
 }
 
-int lookup(char ch)
-{
-    switch (ch)
-    {
-        case '(':
-            addChar();
-            nextToken = LEFT_PAREN;
-            break;
-            
-        case ')':
-            addChar();
-            nextToken = RIGHT_PAREN;
-            break;
-        
-        case '+':
-            addChar();
-            nextToken = ADD_OP;
-            break;
-            
-        case '-':
-            addChar();
-            nextToken = SUB_OP;
-            break;
-            
-        case '*':
-            addChar();
-            nextToken = MULT_OP;
-            break;
-            
-        case '/':
-            addChar();
-            nextToken = DIV_OP;
-            break;
-            
-        default:
-            addChar();
-            nextToken = EOF;
-            break;
-    }
-    
-    return nextToken;
-}
-
 void error()
 {
-    printf("Error: '%s' line %d, column %d: \n%s\n", error, line_input_count, line_input_pos, line_input);
+    printf("Error: line %d, column %d: \n%s\n", line_input_count, line_input_pos, line_input);
+    error();
 }
 
 /* Parse: factor */
@@ -197,10 +198,12 @@ void factor()
                 lex();
             }
             else
-                error("Expected )");
+                /* Expected a ) */
+                error();
         }
         else
-            error("Expected id, integer literal, or (");
+            /* Expected id, integer literal, or ( */
+            error();
     }
 }
 
@@ -229,6 +232,41 @@ void x()
 }
 
 /* Main Driver */
-main () {
+int main () {
+    if (argc < 2)
+    {
+        return 1;
+    }
+    
+    in_fp = open(argv[1], "r");
+    
+    /* File is NULL */
+    if (in_fp == NULL)
+    {
+        printf("Error: Input file failed to open %s.", argv[1]);
+        return 1;
+    }
+    
+    line_input_count = 0;
+    while ( fgets(line_input, sizeof(line_input), in_fp) != NULL)
+    {
+        line_input_count += 1;
+        line_input_pos = 0;
+        
+        /* Return first character */
+        getChar();
+        
+        do
+        {
+            /* Return nextToken */
+            lex();
+            x();
+        } while (nextToken != EOF);
+    }
+    
+    /* Close File */
+    fclose(in_fp);
+    
+    return 0;
     
 }
