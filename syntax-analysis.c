@@ -14,6 +14,8 @@ char nextChar;
 int lexLen;
 int token;
 int nextToken;
+char line_input[100];
+int line_input_pos;
 
 FILE * in_fp;
 
@@ -47,9 +49,26 @@ void addChar()
         printf("Error - lexeme is too long \n");
 }
 
+void getChar()
+{
+    if ((nextChar = line_input[line_input_pos++]) != 0)
+    {
+        if (isalpha(nextChar))
+            charClass = LETTER;
+        else if (isdigit(nextChar))
+            charClass = DIGIT;
+        else
+            charClass = UNKNOWN;
+    }
+    else
+    {
+        charClass = EOF;
+    }
+}
+
 void getNonBlank()
 {
-    while(isspace(nextChar))
+    while (isspace(nextChar) && nextChar != '\r' && nextChar != '\n')
         getChar();
 }
 
