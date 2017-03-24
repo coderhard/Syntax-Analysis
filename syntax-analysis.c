@@ -131,6 +131,7 @@ int lex()
     return nextToken;
 }
 
+/* Parse: factor */
 void factor()
 {
     if (nextToken == IDENT || nextToken == INT_LIT)
@@ -140,10 +141,14 @@ void factor()
     {
         if (nextToken == LEFT_PAREN)
         {
+            /* Return nextToken */
             lex();
             x();
             if (nextToken == RIGHT_PAREN)
+            {
+                /* Return nextToken */
                 lex();
+            }
             else
                 error("Expected )");
         }
@@ -152,9 +157,16 @@ void factor()
     }
 }
 
+/* Parse: z */
 void z()
 {
-    
+    factor();
+    while (nextToken == MULT_OP || nextToken == DIV_OP)
+    {
+        /* Return nextToken */
+        lex();
+        factor();
+    }
 }
 
 void x()
