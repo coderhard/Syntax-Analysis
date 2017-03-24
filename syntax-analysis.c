@@ -36,14 +36,21 @@ FILE * in_fp;
 #define RIGHT_PAREN 26
 
 /* Function Definitions */
-void addChar() {
+void addChar()
+{
     if (lexLen <= 98)
     {
         lexeme[lexLen++] = nextChar;
         lexeme[lexLen] = 0;
     }
     else
-        printf("Error");
+        printf("Error - lexeme is too long \n");
+}
+
+void getNonBlank()
+{
+    while(isspace(nextChar))
+        getChar();
 }
 
 /* Main Driver */
