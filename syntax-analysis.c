@@ -176,7 +176,10 @@ int lex()
 void error()
 {
     printf("Error: line %d, column %d: \n%s\n", line_input_count, line_input_pos, line_input);
-    error();
+    // Hassan Karim
+    // The next line error() caused an infinite recursive loop when a syntax error was encountered.
+    // Commenting it out made program work as expected
+    //error();
 }
 
 /* Parse: factor */
